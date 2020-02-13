@@ -14,7 +14,7 @@ import (
 	"github.com/elves/elvish/pkg/util"
 )
 
-var pathSeparator = string(filepath.Separator)
+var pathSeparator = string("/")
 
 // GenerateFileNames returns filename candidates that are suitable for completing
 // the last argument. It can be used in Config.ArgGenerator.
