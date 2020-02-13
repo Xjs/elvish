@@ -108,8 +108,9 @@ func TestComplete(t *testing.T) {
 		},
 	}
 
+	pathSep := parse.Quote("/")
 	allFileNameItems := []completion.Item{
-		fc("a.exe", " "), fc("d"+string(os.PathSeparator), ""), fc("non-exe", " "),
+		fc("a.exe", " "), fc("d"+pathSep, ""), fc("non-exe", " "),
 	}
 
 	allCommandItems := []completion.Item{
@@ -283,3 +284,8 @@ func fc(s, suffix string) completion.Item {
 }
 
 func r(i, j int) diag.Ranging { return diag.Ranging{From: i, To: j} }
+<<<<<<< HEAD
+=======
+
+func withPathSeparator(d string) string { return d + parse.Quote("/") }
+>>>>>>> e85b94ce... Fix test
