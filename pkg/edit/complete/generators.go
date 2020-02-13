@@ -115,7 +115,7 @@ func generateFileNames(seed string, onlyExecutable bool) ([]RawItem, error) {
 		}
 		// Only accept searchable directories and executable files if
 		// executableOnly is true.
-		if onlyExecutable && (info.Mode()&0111) == 0 {
+		if onlyExecutable && !util.IsExecutableFile(info) {
 			continue
 		}
 
