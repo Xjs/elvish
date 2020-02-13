@@ -3,6 +3,7 @@ package util
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -20,5 +21,25 @@ func IsExecutable(path string) bool {
 		return false
 	}
 	fm := fi.Mode()
-	return !fm.IsDir() && (fm&0111 != 0)
+	return !fm.IsDir() && IsExecutableFile(fi)
+}
+
+var pathext map[string]struct{}
+
+func init() {
+	if runtime.GOOS == "windows" {
+		pathext = make(map[string]struct{})
+		for _, ext := range strings.Split(os.Getenv("PATHEXT"), string(filepath.ListSeparator)) {
+			pathext[strings.ToLower(ext)] = struct{}{}
+		}
+	}
+}
+
+// IsExecutableFile returns true if the item denoted by info is executable on the runtime platform
+func IsExecutableFile(info os.FileInfo) bool {
+	var haveExt bool
+	if pathext != nil {
+		_, haveExt = pathext[strings.ToLower(filepath.Ext(info.Name()))]
+	}
+	return (info.Mode()&0111 != 0 || haveExt)
 }

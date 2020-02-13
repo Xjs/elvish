@@ -104,7 +104,7 @@ func EachExternal(f func(string)) {
 		// TODO(xiaq): Ignore error.
 		infos, _ := ioutil.ReadDir(dir)
 		for _, info := range infos {
-			if !info.IsDir() && (info.Mode()&0111 != 0) {
+			if !info.IsDir() && util.IsExecutableFile(info) {
 				f(info.Name())
 			}
 		}
