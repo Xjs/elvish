@@ -38,7 +38,8 @@ func setup(in, out *os.File) (func() error, error) {
 		return util.Errors(
 			restoreVT(out),
 			windows.SetConsoleMode(hOut, oldOutMode),
-			windows.SetConsoleMode(hIn, oldInMode))
+			windows.SetConsoleMode(hIn, oldInMode),
+		)
 	}, util.Errors(errSetIn, errSetOut, errVT)
 }
 
@@ -56,4 +57,6 @@ func setupGlobal() func() {
 	return func() { windows.SetConsoleMode(hOut, oldOutMode) }
 }
 
-func sanitize(in, out *os.File) {}
+func sanitize(in, out *os.File) {
+	setup(in, out)
+}
