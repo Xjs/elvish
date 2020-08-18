@@ -133,12 +133,13 @@ var (
 )
 
 var pathSep = string(filepath.Separator)
+var anyPathSep = pathSep + "/"
 
 func doTilde(v interface{}) (interface{}, error) {
 	switch v := v.(type) {
 	case string:
 		s := v
-		i := strings.Index(s, pathSep)
+		i := strings.IndexAny(s, anyPathSep)
 		var uname, rest string
 		if i == -1 {
 			uname = s

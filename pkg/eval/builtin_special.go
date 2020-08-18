@@ -268,7 +268,7 @@ func use(fm *Frame, spec string, st *stackTrace) (Ns, error) {
 				return nil, err
 			}
 		}
-		path := filepath.Clean(dir + "/" + spec + ".elv")
+		path := filepath.Clean(filepath.FromSlash(dir + "/" + spec + ".elv"))
 		return useFromFile(fm, spec, path, st)
 	}
 	if ns, ok := fm.Evaler.modules[spec]; ok {
@@ -281,7 +281,7 @@ func use(fm *Frame, spec string, st *stackTrace) (Ns, error) {
 	if fm.libDir == "" {
 		return nil, noSuchModule{spec}
 	}
-	return useFromFile(fm, spec, fm.libDir+"/"+spec+".elv", st)
+	return useFromFile(fm, spec, filepath.FromSlash(fm.libDir+pathSep+spec+".elv"), st)
 }
 
 func useFromFile(fm *Frame, spec, path string, st *stackTrace) (Ns, error) {

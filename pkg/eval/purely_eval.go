@@ -48,9 +48,12 @@ func (ev *Evaler) PurelyEvalPartialCompound(cn *parse.Compound, upto int) (strin
 		}
 	}
 	if tilde {
-		i := strings.Index(head, "/")
+		i := strings.Index(head, pathSep)
 		if i == -1 {
-			i = len(head)
+			i = strings.Index(head, "/")
+			if i == -1 {
+				i = len(head)
+			}
 		}
 		uname := head[:i]
 		home, err := util.GetHome(uname)

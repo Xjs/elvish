@@ -32,5 +32,5 @@ func GetHome(uname string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("can't resolve ~%s: %s", uname, err.Error())
 	}
-	return strings.TrimRight(u.HomeDir, "/"), nil
+	return strings.TrimRight(u.HomeDir, pathSep), nil
 }
