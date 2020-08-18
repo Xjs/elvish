@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 
@@ -131,11 +132,13 @@ var (
 	ErrCannotDetermineUsername = errors.New("cannot determine user name from glob pattern")
 )
 
+var pathSep = string(filepath.Separator)
+
 func doTilde(v interface{}) (interface{}, error) {
 	switch v := v.(type) {
 	case string:
 		s := v
-		i := strings.Index(s, "/")
+		i := strings.Index(s, pathSep)
 		var uname, rest string
 		if i == -1 {
 			uname = s
@@ -149,8 +152,7 @@ func doTilde(v interface{}) (interface{}, error) {
 		}
 		// We do not use path.Join, as it removes trailing slashes.
 		//
-		// TODO(xiaq): Make this correct on Windows.
-		return dir + "/" + rest, nil
+		return dir + pathSep + rest, nil
 	case GlobPattern:
 		if len(v.Segments) == 0 {
 			return nil, ErrBadGlobPattern
